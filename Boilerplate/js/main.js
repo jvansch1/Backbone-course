@@ -3,14 +3,24 @@
 // Later, you'll see how to organize your code into separate
 // files and modules.
 
-const Song = Backbone.Model.extend({
-  validate: function(attrs) {
-    if (!attrs.title) {
-      return "Title is required";
-    }
+const Animal = Backbone.Model.extend({
+  walk: function() {
+    console.log("Animal is walking...");
+  }
+})
+
+const Dog = Animal.extend({
+  bark: function() {
+    console.log("Barking!")
+  },
+  walk: function() {
+    console.log("Dog is walking...")
   }
 });
 
-const song = new Song({
-  title: "good song"
-});
+const dog = new Dog();
+
+const animal = new Animal();
+
+dog.walk();
+dog.bark();
