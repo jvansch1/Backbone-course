@@ -4,23 +4,13 @@
 // files and modules.
 
 const Song = Backbone.Model.extend({
-  initialize: function() {
-    console.log("Song created!")
+  validate: function(attrs) {
+    if (!attrs.title) {
+      return "Title is required";
+    }
   }
 });
 
 const song = new Song({
-  title: "stairway to heaven"
+  title: "good song"
 });
-
-song.set("artist", "Led Zeppelin")
-
-// cannot simply reference or set attributes, need to use set
-// song.set("title", "stairway to heaven")
-
-// can pass in an entire objct to be set
-
-// song.set({
-//   title: "stairway to heaven",
-//   artist: "Led Zeppelin"
-// })
