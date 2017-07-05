@@ -9,4 +9,18 @@ const Song = Backbone.Model.extend({
   }
 });
 
-const song = new Song();
+const song = new Song({
+  title: "stairway to heaven"
+});
+
+song.set("artist", "Led Zeppelin")
+
+// cannot simply reference or set attributes, need to use set
+// song.set("title", "stairway to heaven")
+
+// can pass in an entire objct to be set
+
+// song.set({
+//   title: "stairway to heaven",
+//   artist: "Led Zeppelin"
+// })
