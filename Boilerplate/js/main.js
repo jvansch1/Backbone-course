@@ -59,7 +59,7 @@
 
 const Song = Backbone.Model.extend();
 const Songs = Backbone.Collection.extend();
-// const song = new Song({title: "Greatest song, best song"});
+const song = new Song({title: "Greatest song, best song"});
 
 
 
@@ -67,8 +67,23 @@ const SongView = Backbone.View.extend({
   className: "song",
   tagName: 'li',
   render: function() {
-    this.$el.html(this.model.get("title"));
+    this.$el.html(this.model.get("title") + "<button> Listen </button> <button class='bookmark'> Bookmark </button>");
     return this;
+  },
+
+  // event names and their associated handlers
+  events: {
+    "click": "onClick",
+    "click .bookmark": "onClickBookmark"
+  },
+
+  // click hander
+  onClick: function() {
+    console.log(`Listening to ${this.model.get("title")}`)
+  },
+  onClickBookmark: function(e) {
+    e.stopPropagation();
+    console.log(`Bookmarked ${this.model.get("title")}`)
   }
 })
 
