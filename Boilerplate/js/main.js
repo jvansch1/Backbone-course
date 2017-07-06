@@ -57,37 +57,61 @@
 //
 // car.start();
 
-const Song = Backbone.Model.extend();
+const Song = Backbone.Model.extend({
+  defaults: {
+    listeners: 0
+  }
+});
+
 const Songs = Backbone.Collection.extend();
 const song = new Song({title: "Greatest song, best song"});
 
-
-
 const SongView = Backbone.View.extend({
-  className: "song",
-  tagName: 'li',
+
+  // in initialize method, force view to re-render when model updates
+  // initialize: function() {
+  //   this.model.on("change", this.render, this)
+  // },
   render: function() {
-    this.$el.html(this.model.get("title") + "<button> Listen </button> <button class='bookmark'> Bookmark </button>");
+    this.$el.html(this.model.get("title") + " - Listeners: " + this.model.get("listeners"));
     return this;
-  },
-
-  // event names and their associated handlers
-  events: {
-    "click": "onClick",
-    "click .bookmark": "onClickBookmark"
-  },
-
-  // click hander
-  onClick: function() {
-    console.log(`Listening to ${this.model.get("title")}`)
-  },
-  onClickBookmark: function(e) {
-    e.stopPropagation();
-    console.log(`Bookmarked ${this.model.get("title")}`)
   }
 })
 
+// const SongView = Backbone.View.extend({
+//   className: "song",
+//   tagName: 'li',
+//   render: function() {
+//     this.$el.html(this.model.get("title") + "<button> Listen </button> <button class='bookmark'> Bookmark </button>");
+//     return this;
+//   },
+//
+//   // event names and their associated handlers
+//   events: {
+//     "click": "onClick",
+//     "click .bookmark": "onClickBookmark"
+//   },
+//
+//   // click hander
+//   onClick: function() {
+//     console.log(`Listening to ${this.model.get("title")}`)
+//   },
+//   onClickBookmark: function(e) {
+//     e.stopPropagation();
+//     console.log(`Bookmarked ${this.model.get("title")}`)
+//   }
+// })
+
 const SongsView = Backbone.View.extend({
+  tagName: "ul",
+  initialize: function() {
+    this.model.on("add", this.onSongAdded, this)
+  },
+  onSongAdded: function(song) {
+    let songView = new SongView({ model: song })
+    this.$el.append(songView.render().$el)
+  },
+
   render: function() {
     this.model.each(function(song) {
       let songView = new SongView({ model: song })
