@@ -1,18 +1,11 @@
-let person = {
-  name: "John",
-  walk: function() {
-    // trigger is used to trigger events
-    this.trigger("walking", {
-      speed: 1,
-      startTime: "8:00"
-    });
+let ArtistsView = Backbone.View.extend({
+  render: function() {
+    this.$el.html("Artists")
   }
-}
+});
 
-// user underscore extend to extend person to events
-_.extend(person, Backbone.Events);
-
-person.on("walking", function(e) {
-  console.log("Person is walking");
-  console.log(e)
+let AlbumsView = Backbon.View.extend({
+  render: function() {
+    this.$el.html("Albums")
+  }
 })
