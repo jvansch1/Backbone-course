@@ -13,13 +13,21 @@ const VehicleView = Backbone.View.extend({
   tagName: 'li',
   render: function() {
     let vehicle = this.model.attributes
-    this.$el.html(vehicle.registrationNumber + " - color: " + vehicle.color);
+    this.$el.html(vehicle.registrationNumber + " - color: " + vehicle.color + "<button class='delete-button'>Delete</button>");
+    this.$el.attr("id", vehicle.id)
+    this.$el.attr("data-color", vehicle.color)
     return this;
   }
 });
 
 const VehiclesView = Backbone.View.extend({
   tagName: 'ul',
+  events: {
+    "click .delete-button": "removeVehicle"
+  },
+  removeVehicle: function(e) {
+    $(e.currentTarget).parent().remove();
+  },
   render: function() {
     this.model.each(function(vehicle) {
       let vehicleView = new VehicleView({ model: vehicle })
@@ -29,9 +37,9 @@ const VehiclesView = Backbone.View.extend({
 })
 
 let vehicles = new Vehicles([
-  new Vehicle({ color: 'blue', registrationNumber: 'XXX123'}),
-  new Vehicle({ color: 'grey', registrationNumber: 'jsdf123'}),
-  new Vehicle({ color: 'green', registrationNumber: 'x8h3jl'}),
+  new Vehicle({ color: 'blue', registrationNumber: 'XXX123', id: 1}),
+  new Vehicle({ color: 'grey', registrationNumber: 'jsdf123', id: 2}),
+  new Vehicle({ color: 'green', registrationNumber: 'x8h3jl', id: 3}),
 ])
 
 let vehiclesView = new VehiclesView({el: "#vehicles", model: vehicles})
