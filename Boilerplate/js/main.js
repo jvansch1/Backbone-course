@@ -73,9 +73,12 @@ const SongView = Backbone.View.extend({
   //   this.model.on("change", this.render, this)
   // },
   render: function() {
-    this.$el.html(this.model.get("title") + " - Listeners: " + this.model.get("listeners"));
-    this.$el.attr("id", this.model.id);
-    return this;
+    let template = _.template($("#songTemplate").html());
+    let html = template(this.model.toJSON());
+    this.$el.html(html);
+    // this.$el.html(this.model.get("title") + " - Listeners: " + this.model.get("listeners"));
+    // this.$el.attr("id", this.model.id);
+    // return this;
   }
 })
 
@@ -103,39 +106,39 @@ const SongView = Backbone.View.extend({
 //   }
 // })
 
-const SongsView = Backbone.View.extend({
-  tagName: "ul",
-  initialize: function() {
-    this.model.on("add", this.onSongAdded, this)
-    this.model.on("remove", this.onSongRemoved, this)
-  },
-  onSongAdded: function(song) {
-    let songView = new SongView({ model: song })
-    this.$el.append(songView.render().$el)
-  },
-  onSongRemoved: function(song) {
-    console.log(this.$("#li" + song.id))
-    this.$("li#" + song.id).remove();
-  },
-
-  render: function() {
-    this.model.each(function(song) {
-      let songView = new SongView({ model: song })
-      this.$el.append(songView.render().$el);
-    }.bind(this))
-  }
-})
-
-const songs = new Songs([
-  new Song({title: "Master of puppets", id: 1}),
-  new Song({title: "Sleebard hadoo", id: 2}),
-  new Song({title: "Florgy manishwatz", id: 3})
-])
+// const SongsView = Backbone.View.extend({
+//   tagName: "ul",
+//   initialize: function() {
+//     this.model.on("add", this.onSongAdded, this)
+//     this.model.on("remove", this.onSongRemoved, this)
+//   },
+//   onSongAdded: function(song) {
+//     let songView = new SongView({ model: song })
+//     this.$el.append(songView.render().$el)
+//   },
+//   onSongRemoved: function(song) {
+//     console.log(this.$("#li" + song.id))
+//     this.$("li#" + song.id).remove();
+//   },
+//
+//   render: function() {
+//     this.model.each(function(song) {
+//       let songView = new SongView({ model: song })
+//       this.$el.append(songView.render().$el);
+//     }.bind(this))
+//   }
+// })
+//
+// const songs = new Songs([
+//   new Song({title: "Master of puppets", id: 1}),
+//   new Song({title: "Sleebard hadoo", id: 2}),
+//   new Song({title: "Florgy manishwatz", id: 3})
+// ])
 
 // #el property is the html element that will render content
 // if no element is specified, a new html element will be created but not insetred into DOM
-// const songView = new SongView({ el: "#songs", model: song})
-const songsView = new SongsView({ el: "#songs", model: songs })
+const songView = new SongView({ el: "#songs", model: song})
+// const songsView = new SongsView({ el: "#songs", model: songs })
 // must call render method in order for content to appear
-// songView.render();
-songsView.render();
+songView.render();
+// songsView.render();
