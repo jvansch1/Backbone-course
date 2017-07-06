@@ -67,13 +67,14 @@ const Songs = Backbone.Collection.extend();
 const song = new Song({title: "Greatest song, best song"});
 
 const SongView = Backbone.View.extend({
-
+  tagName: "li",
   // in initialize method, force view to re-render when model updates
   // initialize: function() {
   //   this.model.on("change", this.render, this)
   // },
   render: function() {
     this.$el.html(this.model.get("title") + " - Listeners: " + this.model.get("listeners"));
+    this.$el.attr("id", this.model.id);
     return this;
   }
 })
@@ -106,10 +107,15 @@ const SongsView = Backbone.View.extend({
   tagName: "ul",
   initialize: function() {
     this.model.on("add", this.onSongAdded, this)
+    this.model.on("remove", this.onSongRemoved, this)
   },
   onSongAdded: function(song) {
     let songView = new SongView({ model: song })
     this.$el.append(songView.render().$el)
+  },
+  onSongRemoved: function(song) {
+    console.log(this.$("#li" + song.id))
+    this.$("li#" + song.id).remove();
   },
 
   render: function() {
@@ -121,9 +127,9 @@ const SongsView = Backbone.View.extend({
 })
 
 const songs = new Songs([
-  new Song({title: "Master of puppets"}),
-  new Song({title: "Sleebard hadoo"}),
-  new Song({title: "Florgy manishwatz"})
+  new Song({title: "Master of puppets", id: 1}),
+  new Song({title: "Sleebard hadoo", id: 2}),
+  new Song({title: "Florgy manishwatz", id: 3})
 ])
 
 // #el property is the html element that will render content
